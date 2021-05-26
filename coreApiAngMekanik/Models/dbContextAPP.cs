@@ -4,6 +4,7 @@ using System.Collections.Generic;
 //using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using coreApiAngMekanik.Models;
 
 namespace coreApiAngMekanik.Models
 {
@@ -13,6 +14,7 @@ namespace coreApiAngMekanik.Models
         {
 
         }
+        public DbSet<coreApiAngMekanik.Models.User> User { get; set; }
 
 
 

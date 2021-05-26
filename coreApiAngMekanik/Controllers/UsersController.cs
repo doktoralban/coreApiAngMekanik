@@ -22,6 +22,26 @@ namespace coreApiAngMekanik.Controllers
             _logger = logger;
         }
 
+       
+        [HttpGet("{userName}")]
+        public async Task<ActionResult<User>> GetUser(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return NotFound();
+            }
+            var user = await csDB.GetUser(userName);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+
+
         [HttpGet]
         public async Task<IEnumerable<User>> Get()
         {

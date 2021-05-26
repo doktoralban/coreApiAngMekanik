@@ -26,6 +26,26 @@ namespace DataLayer
  
 
         #region" Users "
+
+        public static async Task<User> GetUser(string userName)
+        {
+            string sql = "SELECT TOP 1 * FROM TBLUSERS WHERE USERNAME=@USERNAME ";
+            User _user;
+            try
+            {
+                using (var connection = new SqlConnection(cnnString()))
+                {
+                   _user = await  connection.QueryFirstOrDefaultAsync<User>(sql, 
+                       new { USERNAME = userName });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return _user;
+        }
         public static async Task<IEnumerable<User>> GetUsers()
         {
             string sql ="SELECT * FROM TBLUSERS"  ;
