@@ -31,6 +31,21 @@ namespace coreApiAngMekanik.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<bool> Add([FromBody] User _user)
+        {
+            
+           if (_user == null || string.IsNullOrEmpty(_user.USERNAME) || string.IsNullOrEmpty( _user.PASSWORD))
+            {
+                return false;
+            }
+
+            return await csDB.AddUser(_user)  ;
+        }
+
+
+
+
 
         }
 }
