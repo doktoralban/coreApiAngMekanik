@@ -65,9 +65,9 @@ namespace coreApiAngMekanik.Controllers
 
 
         [HttpPost]
-        public async Task<bool> Add([FromBody] User _user)
+        public async Task<ActionResult<string>> Add([FromBody] User _user)
         {
-            return CheckModel(_user)==false ? false : await csDB.AddUser(_user);
+            return CheckModel(_user)==false ? " Model invalid!" : await csDB.AddUser(_user);
         }
 //("{userName}")
         [HttpPut]

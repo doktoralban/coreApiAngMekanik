@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using coreApiAngMekanik.Models;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
 
@@ -67,12 +68,13 @@ namespace DataLayer
 
 
 
-        public static async Task<bool> AddUser(User _user)
+        public static async  Task<ActionResult<string>> AddUser(User _user)
         {
             string sql = $@"INSERT INTO  [TBLUSERS] (USERNAME, PASSWORD, ISACTIVE, PHOTOPATH) 
                             VALUES (@USERNAME ,@PASSWORD ,@ISACTIVE ,@PHOTOPATH ) ";
 
             int affectedRows = 0;
+            string result = "";
             try
             {
                 using (var connection = new SqlConnection(cnnString()))
@@ -87,10 +89,13 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                return false;
+                result = ex.Message;
             }
-
-            return affectedRows > 0;
+            if (affectedRows<1)
+            {
+                result = result + " Problem! ";
+            }
+            return new JsonResult( result);
         }
 
         public static async Task<bool> PutUser(User _user)
