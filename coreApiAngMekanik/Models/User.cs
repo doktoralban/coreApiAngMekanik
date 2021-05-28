@@ -13,7 +13,7 @@ namespace coreApiAngMekanik.Models
         [Required]
         [DataType(DataType.Password)]
         public string PASSWORD { get; set; }
-        [Required]
+        //[Required]
         public bool ISACTIVE { get; set; }
         public string PHOTOPATH { get; set; }
     }

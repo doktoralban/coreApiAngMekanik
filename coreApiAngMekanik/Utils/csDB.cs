@@ -69,7 +69,7 @@ namespace DataLayer
 
         public static async Task<bool> AddUser(User _user)
         {
-            string sql = $@"INSERT INTO [dbo].[TBLUSERS] (USERNAME, PASSWORD, ISACTIVE, PHOTOPATH) 
+            string sql = $@"INSERT INTO  [TBLUSERS] (USERNAME, PASSWORD, ISACTIVE, PHOTOPATH) 
                             VALUES (@USERNAME ,@PASSWORD ,@ISACTIVE ,@PHOTOPATH ) ";
 
             int affectedRows = 0;
@@ -92,10 +92,40 @@ namespace DataLayer
 
             return affectedRows > 0;
         }
-        #endregion
+
+        public static async Task<bool> PutUser(User _user)
+        {
+            string sql = $@"UPDATE TBLUSERS SET PASSWORD=@PASSWORD,ISACTIVE=@ISACTIVE,PHOTOPATH=@PHOTOPATH 
+                            WHERE USERNAME=@USERNAME ";
+
+            int affectedRows = 0;
+            try
+            {
+                using (var connection = new SqlConnection(cnnString()))
+                { 
+                    affectedRows = await connection.ExecuteAsync(sql,
+                        new
+                        {
+                            USERNAME = _user.USERNAME,
+                            PASSWORD = _user.PASSWORD,
+                            ISACTIVE = _user.ISACTIVE ,
+                            PHOTOPATH = _user.PHOTOPATH
+                        });
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return affectedRows > 0;
+        }
+
+
+            #endregion
 
 
 
 
-    }
+        }
 }

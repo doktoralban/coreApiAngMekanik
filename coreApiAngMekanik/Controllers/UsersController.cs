@@ -23,6 +23,19 @@ namespace coreApiAngMekanik.Controllers
         }
 
        
+
+        private bool CheckModel(User _user)
+        {
+            bool result = true;
+            if (_user == null || string.IsNullOrEmpty(_user.USERNAME) || string.IsNullOrEmpty(_user.PASSWORD))
+            {
+                result = false;
+            }
+
+
+            return result;
+        }
+
         [HttpGet("{userName}")]
         public async Task<ActionResult<User>> GetUser(string userName)
         {
@@ -54,18 +67,18 @@ namespace coreApiAngMekanik.Controllers
         [HttpPost]
         public async Task<bool> Add([FromBody] User _user)
         {
-            
-           if (_user == null || string.IsNullOrEmpty(_user.USERNAME) || string.IsNullOrEmpty( _user.PASSWORD))
-            {
-                return false;
-            }
-
-            return await csDB.AddUser(_user)  ;
+            return CheckModel(_user)==false ? false : await csDB.AddUser(_user);
+        }
+//("{userName}")
+        [HttpPut]
+        public async Task<bool> Put([FromBody] User _user)
+        {
+            return _user == null ? false : await csDB.PutUser(_user);
         }
 
 
 
 
 
-        }
+    }
 }
