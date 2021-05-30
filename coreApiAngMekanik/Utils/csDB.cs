@@ -93,17 +93,18 @@ namespace DataLayer
             }
             if (affectedRows<1)
             {
-                result = result + " Problem! ";
+                result = " Problem! \r\n" + result;
             }
             return new JsonResult( result);
         }
 
-        public static async Task<bool> PutUser(User _user)
+        public static async Task<ActionResult<string>> PutUser(User _user,string userName)
         {
             string sql = $@"UPDATE TBLUSERS SET PASSWORD=@PASSWORD,ISACTIVE=@ISACTIVE,PHOTOPATH=@PHOTOPATH 
                             WHERE USERNAME=@USERNAME ";
 
             int affectedRows = 0;
+            string result = "";
             try
             {
                 using (var connection = new SqlConnection(cnnString()))
@@ -111,7 +112,7 @@ namespace DataLayer
                     affectedRows = await connection.ExecuteAsync(sql,
                         new
                         {
-                            USERNAME = _user.USERNAME,
+                            USERNAME = userName,
                             PASSWORD = _user.PASSWORD,
                             ISACTIVE = _user.ISACTIVE ,
                             PHOTOPATH = _user.PHOTOPATH
@@ -120,10 +121,13 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                return false;
+                result = ex.Message;
             }
-
-            return affectedRows > 0;
+            if (affectedRows < 1)
+            {
+                result = " Problem! \r\n" + result   ;
+            }
+            return new JsonResult(result);
         }
 
 

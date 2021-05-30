@@ -71,9 +71,9 @@ namespace coreApiAngMekanik.Controllers
         }
 //("{userName}")
         [HttpPut]
-        public async Task<bool> Put([FromBody] User _user)
+        public async Task<ActionResult<string>> Put([FromBody] User _user,string userName)
         {
-            return _user == null ? false : await csDB.PutUser(_user);
+            return CheckModel(_user) == false ? " Model invalid!" : await csDB.PutUser(_user, userName);
         }
 
 
