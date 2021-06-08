@@ -8,6 +8,7 @@ namespace coreApiAngMekanik.Models
 {
     public class LoginViewModel
     {
+       
         [Key]
         [Required]
         [Display(Name ="User Name")]

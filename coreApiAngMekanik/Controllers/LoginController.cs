@@ -14,12 +14,13 @@ namespace coreApiAngMekanik.Controllers
     public class LoginController : ControllerBase
     {
 
-        [HttpGet]
-        public async Task<ActionResult<User>> LoginKontrol(string userName,string passWord)
+        [HttpPost]
+        [Route("LoginControl")]
+        public async Task<ActionResult<User>> LoginControl([FromBody] LoginViewModel loginViewModel)
         {
-            var user = await csDB.GetUser(userName);
+            var user = await csDB.GetUser(loginViewModel.USERNAME);
 
-            if (user == null || user.PASSWORD !=passWord)
+            if (user == null || user.PASSWORD != loginViewModel.PASSWORD)
             {
                 return NotFound();
             }

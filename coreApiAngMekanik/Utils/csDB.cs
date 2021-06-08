@@ -111,7 +111,7 @@ namespace DataLayer
                 { 
                     affectedRows = await connection.ExecuteAsync(sql,
                         new
-                        {
+                        { 
                             USERNAME = userName,
                             PASSWORD = _user.PASSWORD,
                             ISACTIVE = _user.ISACTIVE ,

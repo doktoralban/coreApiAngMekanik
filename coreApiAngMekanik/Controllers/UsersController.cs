@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace coreApiAngMekanik.Controllers
@@ -77,6 +78,22 @@ namespace coreApiAngMekanik.Controllers
         }
 
 
+
+        [HttpGet]
+        [Route("GetUserClaims")]
+        public AccountModel GetUserClaims()
+        {
+            var identityClaims = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identityClaims.Claims;
+            AccountModel model = new AccountModel()
+            {
+                USERID = Convert.ToInt32( identityClaims.FindFirst("USERID").Value) ,
+                USERNAME = identityClaims.FindFirst("USERNAME").Value,
+                PASSWORD = identityClaims.FindFirst("PASSWORD").Value,
+                LoggedOn = identityClaims.FindFirst("LoggedOn").Value
+            };
+            return model;
+        }
 
 
 
